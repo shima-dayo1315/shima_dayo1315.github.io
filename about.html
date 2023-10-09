@@ -1,55 +1,69 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>メンテナンス中</title>
+    <title>Sorry!</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
             background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .maintenance-container {
+            color: #333;
             text-align: center;
-            background-color: #fff;
+            margin: 0;
             padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
         }
 
-        .maintenance-header img {
-            width: 80px;
-            height: 80px;
+        h1 {
+            font-size: 36px;
             margin-bottom: 20px;
         }
 
-        .maintenance-header h1 {
-            font-size: 2rem;
-            color: #333;
+        p {
+            font-size: 20px;
+            line-height: 1.6;
+            margin-bottom: 30px;
         }
 
-        .maintenance-container p {
-            font-size: 1.2rem;
-            color: #555;
-            margin-top: 20px;
+        .maintenance-icon {
+            font-size: 100px;
+            margin-bottom: 20px;
+        }
+
+        .contact-info {
+            font-size: 16px;
+        }
+
+        .contact-info a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            .maintenance-icon {
+                font-size: 80px;
+            }
+
+            .contact-info {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
+
 <body>
-    <div class="maintenance-container">
-        <div class="maintenance-header">
-            <img src="3maintenance-logo.png" alt="ロゴ">
-            <h1>メンテナンス中</h1>
-        </div>
-        <p>申し訳ありませんが、現在このページははメンテナンス中です。<br>
-        ご不便をおかけいたしますが、メンテナンス終了までしばらくお待ちください。</p>
+    <div class="maintenance-icon">&#x1F6E0;</div>
+    <h1>ただいまメンテナンス中です</h1>
+    <p>現在サーバーのメンテナンスを実施しております。</p>
+    <p>ご不便をおかけいたしますが、しばらくお待ちいただけますようお願いいたします。</p>
+    <div class="contact-info">
+        <p>終了予定時刻：2023/09/14 20:30</p>
     </div>
 </body>
+
 </html>
