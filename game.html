@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>迷路ゲーム</title>
+    <title>タイピングゲーム</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -12,61 +12,84 @@
             height: 100vh;
             margin: 0;
         }
-        .maze {
-            width: 400px;
-            height: 400px;
-            background-color: #333;
-            position: relative;
+        .container {
+            text-align: center;
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        .start, .end, .wall, .path {
-            width: 40px;
-            height: 40px;
-            position: absolute;
+        h1 {
+            color: #333;
         }
-        .start {
-            background-color: green;
-            top: 0;
-            left: 0;
+        p {
+            font-size: 24px;
+            margin: 20px;
         }
-        .end {
-            background-color: red;
-            top: 360px;
-            left: 360px;
+        input {
+            padding: 10px;
+            font-size: 18px;
         }
-        .wall {
-            background-color: black;
+        button {
+            padding: 12px 24px;
+            font-size: 18px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            margin: 10px;
+            cursor: pointer;
         }
-        .path {
-            background-color: white;
+        button:hover {
+            background-color: #2980b9;
         }
     </style>
 </head>
 <body>
-    <div class="maze">
-        <div class="start"></div>
-        <div class="wall" style="top: 40px; left: 0;"></div>
-        <div class="wall" style="top: 80px; left: 0;"></div>
-        <div class="wall" style="top: 120px; left: 40px;"></div>
-        <div class="wall" style="top: 40px; left: 80px;"></div>
-        <div class="wall" style="top: 160px; left: 80px;"></div>
-        <div class="wall" style="top: 200px; left: 80px;"></div>
-        <div class="wall" style="top: 240px; left: 80px;"></div>
-        <div class="wall" style="top: 280px; left: 80px;"></div>
-        <div class="wall" style="top: 80px; left: 120px;"></div>
-        <div class="wall" style="top: 160px; left: 120px;"></div>
-        <div class="wall" style="top: 240px; left: 120px;"></div>
-        <div class="wall" style="top: 80px; left: 160px;"></div>
-        <div class="wall" style="top: 160px; left: 160px;"></div>
-        <div class="wall" style="top: 80px; left: 200px;"></div>
-        <div class="wall" style="top: 160px; left: 200px;"></div>
-        <div class="wall" style="top: 280px; left: 200px;"></div>
-        <div class="wall" style="top: 40px; left: 240px;"></div>
-        <div class="wall" style="top: 80px; left: 240px;"></div>
-        <div class="wall" style="top: 200px; left: 240px;"></div>
-        <div class="wall" style="top: 280px; left: 240px;"></div>
-        <div class="wall" style="top: 120px; left: 280px;"></div>
-        <div class="wall" style="top: 200px; left: 280px;</div>
-        <div class="end"></div>
+    <div class="container">
+        <h1>タイピングゲーム</h1>
+        <p>以下の単語を速く入力してください。</p>
+        <p id="word">Hello</p>
+        <input type="text" id="user-input" placeholder="ここに入力">
+        <button onclick="startGame()">スタート</button>
+        <p id="message"></p>
     </div>
+
+    <script>
+        const words = ['Hello', 'World', 'JavaScript', 'Typing', 'Challenge'];
+        let wordIndex = 0;
+        let startTime;
+
+        function startGame() {
+            if (wordIndex === words.length) {
+                alert('ゲーム終了！');
+                return;
+            }
+
+            const word = words[wordIndex];
+            document.getElementById('word').innerText = word;
+            document.getElementById('user-input').value = '';
+            document.getElementById('user-input').focus();
+
+            startTime = new Date().getTime();
+        }
+
+        document.getElementById('user-input').addEventListener('input', checkInput);
+
+        function checkInput() {
+            const userValue = document.getElementById('user-input').value;
+            const originalWord = words[wordIndex];
+            if (userValue === originalWord) {
+                wordIndex++;
+                if (wordIndex === words.length) {
+                    const endTime = new Date().getTime();
+                    const totalTime = (endTime - startTime) / 1000;
+                    const message = `終了！時間: ${totalTime}秒`;
+                    document.getElementById('message').innerText = message;
+                } else {
+                    startGame();
+                }
+            }
+        }
+    </script>
 </body>
 </html>
