@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>クリック数カウントゲーム</title>
+    <title>迷路ゲーム</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -12,62 +12,61 @@
             height: 100vh;
             margin: 0;
         }
-        .container {
-            text-align: center;
-            background-color: #ffffff;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        .maze {
+            width: 400px;
+            height: 400px;
+            background-color: #333;
+            position: relative;
         }
-        h1 {
-            color: #333;
+        .start, .end, .wall, .path {
+            width: 40px;
+            height: 40px;
+            position: absolute;
         }
-        button {
-            padding: 12px 24px;
-            font-size: 18px;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            cursor: pointer;
+        .start {
+            background-color: green;
+            top: 0;
+            left: 0;
         }
-        button:hover {
-            background-color: #2980b9;
+        .end {
+            background-color: red;
+            top: 360px;
+            left: 360px;
         }
-        p {
-            font-size: 24px;
-            margin: 20px;
+        .wall {
+            background-color: black;
+        }
+        .path {
+            background-color: white;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>クリック数カウントゲーム</h1>
-        <button onclick="startGame()">スタート</button>
-        <button id="target" onclick="increaseCount()" style="display: none;">クリック！</button>
-        <p id="click-count"></p>
+    <div class="maze">
+        <div class="start"></div>
+        <div class="wall" style="top: 40px; left: 0;"></div>
+        <div class="wall" style="top: 80px; left: 0;"></div>
+        <div class="wall" style="top: 120px; left: 40px;"></div>
+        <div class="wall" style="top: 40px; left: 80px;"></div>
+        <div class="wall" style="top: 160px; left: 80px;"></div>
+        <div class="wall" style="top: 200px; left: 80px;"></div>
+        <div class="wall" style="top: 240px; left: 80px;"></div>
+        <div class="wall" style="top: 280px; left: 80px;"></div>
+        <div class="wall" style="top: 80px; left: 120px;"></div>
+        <div class="wall" style="top: 160px; left: 120px;"></div>
+        <div class="wall" style="top: 240px; left: 120px;"></div>
+        <div class="wall" style="top: 80px; left: 160px;"></div>
+        <div class="wall" style="top: 160px; left: 160px;"></div>
+        <div class="wall" style="top: 80px; left: 200px;"></div>
+        <div class="wall" style="top: 160px; left: 200px;"></div>
+        <div class="wall" style="top: 280px; left: 200px;"></div>
+        <div class="wall" style="top: 40px; left: 240px;"></div>
+        <div class="wall" style="top: 80px; left: 240px;"></div>
+        <div class="wall" style="top: 200px; left: 240px;"></div>
+        <div class="wall" style="top: 280px; left: 240px;"></div>
+        <div class="wall" style="top: 120px; left: 280px;"></div>
+        <div class="wall" style="top: 200px; left: 280px;</div>
+        <div class="end"></div>
     </div>
-
-    <script>
-        let clickCount = 0;
-        let gameInterval;
-
-        function startGame() {
-            clickCount = 0;
-            document.getElementById('click-count').innerText = '';
-            document.getElementById('target').style.display = 'block';
-            document.getElementById('target').textContent = 'クリック！';
-            gameInterval = setTimeout(endGame, 5000); // 5秒後にゲーム終了
-        }
-
-        function increaseCount() {
-            clickCount++;
-            document.getElementById('click-count').innerText = `クリック数: ${clickCount}`;
-        }
-
-        function endGame() {
-            document.getElementById('target').textContent = '終了';
-            document.getElementById('target').disabled = true;
-        }
-    </script>
 </body>
 </html>
