@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>タイピングゲーム</title>
+    <title>神経衰弱ゲーム</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -14,81 +14,81 @@
         }
         .container {
             text-align: center;
-            background-color: #ffffff;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         h1 {
+            font-size: 28px;
             color: #333;
+            margin: 20px 0;
         }
-        p {
-            font-size: 24px;
-            margin: 20px;
-        }
-        input {
-            padding: 10px;
-            font-size: 18px;
-        }
-        button {
-            padding: 12px 24px;
-            font-size: 18px;
+        .card {
+            width: 150px;
+            height: 200px;
             background-color: #3498db;
-            color: white;
-            border: none;
+            color: #ffffff;
+            font-size: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             margin: 10px;
             cursor: pointer;
+            border: 1px solid #ffffff;
+            border-radius: 8px;
+            transition: transform 0.2s;
         }
-        button:hover {
-            background-color: #2980b9;
+        .card.flipped {
+            background-color: #ffffff;
+            color: #3498db;
+            transform: scale(1.1);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>タイピングゲーム</h1>
-        <p>以下の単語を速く入力してください。</p>
-        <p id="word">Hello</p>
-        <input type="text" id="user-input" placeholder="ここに入力">
-        <button onclick="startGame()">スタート</button>
-        <p id="message"></p>
+        <h1>神経衰弱ゲーム</h1>
+        <div class="card" onclick="flipCard(this)">A</div>
+        <div class="card" onclick="flipCard(this)">B</div>
+        <div class="card" onclick="flipCard(this)">C</div>
+        <div class="card" onclick="flipCard(this)">A</div>
+        <div class="card" onclick="flipCard(this)">B</div>
+        <div class="card" onclick="flipCard(this)">C</div>
     </div>
 
     <script>
-        const words = ['Hello', 'World', 'JavaScript', 'Typing', 'Challenge'];
-        let wordIndex = 0;
-        let startTime;
+        let firstCard = null;
+        let secondCard = null;
+        let cardsFlipped = 0;
 
-        function startGame() {
-            if (wordIndex === words.length) {
-                alert('ゲーム終了！');
-                return;
+        function flipCard(card) {
+            if (!firstCard) {
+                firstCard = card;
+                card.classList.add('flipped');
+            } else if (firstCard !== card && !secondCard) {
+                secondCard = card;
+                card.classList.add('flipped');
+                checkMatch();
             }
-
-            const word = words[wordIndex];
-            document.getElementById('word').innerText = word;
-            document.getElementById('user-input').value = '';
-            document.getElementById('user-input').focus();
-
-            startTime = new Date().getTime();
         }
 
-        document.getElementById('user-input').addEventListener('input', checkInput);
+        function checkMatch() {
+            if (firstCard.textContent === secondCard.textContent) {
+                firstCard.removeEventListener('click', flipCard);
+                secondCard.removeEventListener('click', flipCard);
+                cardsFlipped += 2;
 
-        function checkInput() {
-            const userValue = document.getElementById('user-input').value;
-            const originalWord = words[wordIndex];
-            if (userValue === originalWord) {
-                wordIndex++;
-                if (wordIndex === words.length) {
-                    const endTime = new Date().getTime();
-                    const totalTime = (endTime - startTime) / 1000;
-                    const message = `終了！時間: ${totalTime}秒`;
-                    document.getElementById('message').innerText = message;
-                } else {
-                    startGame();
+                if (cardsFlipped === 6) {
+                    setTimeout(() => {
+                        alert('おめでとう！ゲームクリア！');
+                    }, 500);
                 }
+            } else {
+                setTimeout(() => {
+                    firstCard.classList.remove('flipped');
+                    secondCard.classList.remove('flipped');
+                }, 1000);
             }
+
+            firstCard = null;
+            secondCard = null;
         }
     </script>
 </body>
