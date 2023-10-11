@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>反射ゲーム</title>
+    <title>クリック数カウントゲーム</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -22,80 +22,52 @@
         h1 {
             color: #333;
         }
-        .ball {
-            width: 20px;
-            height: 20px;
+        button {
+            padding: 12px 24px;
+            font-size: 18px;
             background-color: #3498db;
-            border-radius: 50%;
-            position: absolute;
+            color: white;
+            border: none;
+            cursor: pointer;
         }
-        .paddle {
-            width: 100px;
-            height: 10px;
-            background-color: #333;
-            position: absolute;
-            bottom: 10px;
+        button:hover {
+            background-color: #2980b9;
         }
-        .block {
-            width: 50px;
-            height: 20px;
-            background-color: #e74c3c;
-            margin: 5px;
-            display: inline-block;
+        p {
+            font-size: 24px;
+            margin: 20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>反射ゲーム</h1>
-        <div class="ball" id="ball"></div>
-        <div class="paddle" id="paddle"></div>
-        <div class="block"></div>
-        <div class="block"></div>
-        <div class="block"></div>
-        <div class="block"></div>
-        <div class="block"></div>
+        <h1>クリック数カウントゲーム</h1>
+        <button onclick="startGame()">スタート</button>
+        <button id="target" onclick="increaseCount()" style="display: none;">クリック！</button>
+        <p id="click-count"></p>
     </div>
 
     <script>
-        const ball = document.getElementById('ball');
-        const paddle = document.getElementById('paddle');
+        let clickCount = 0;
+        let gameInterval;
 
-        let x = 0;
-        let y = 0;
-        let xSpeed = 2;
-        let ySpeed = 2;
-
-        function moveBall() {
-            x += xSpeed;
-            y += ySpeed;
-
-            if (x > window.innerWidth - 20 || x < 0) {
-                xSpeed *= -1;
-            }
-
-            if (y > window.innerHeight - 20) {
-                if (x > paddle.offsetLeft && x < paddle.offsetLeft + 100) {
-                    ySpeed *= -1;
-                }
-            }
-
-            if (y < 0) {
-                ySpeed *= -1;
-            }
-
-            ball.style.left = x + 'px';
-            ball.style.top = y + 'px';
-
-            requestAnimationFrame(moveBall);
+        function startGame() {
+            clickCount = 0;
+            document.getElementById('click-count').innerText = '';
+            document.getElementById('target').style.display = 'block';
+            document.getElementById('target').textContent = 'クリック！';
+            gameInterval = setTimeout(endGame, 5000); // 5秒後にゲーム終了
         }
 
-        moveBall();
+        function increaseCount() {
+            clickCount++;
+            document.getElementById('click-count').innerText = `クリック数: ${clickCount}`;
+        }
 
-        document.addEventListener('mousemove', (event) => {
-            const mouseX = event.clientX;
-            paddle.style.left = mouseX - 50 + 'px';
-        });
+        function endGame() {
+            document.getElementById('target').textContent = '終了';
+            document.getElementById('target').disabled = true;
+        }
     </script>
 </body>
 </html>
