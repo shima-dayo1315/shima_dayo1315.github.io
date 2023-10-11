@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>じゃんけんゲーム</title>
+    <title>反射ゲーム</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -22,98 +22,80 @@
         h1 {
             color: #333;
         }
-        .icons {
-            display: flex;
-            justify-content: center;
-            font-size: 60px;
-            margin: 20px;
-        }
-        .icon {
-            padding: 0 20px;
-        }
-        button {
-            padding: 12px 24px;
-            font-size: 18px;
+        .ball {
+            width: 20px;
+            height: 20px;
             background-color: #3498db;
-            color: white;
-            border: none;
-            margin: 10px;
-            cursor: pointer;
+            border-radius: 50%;
+            position: absolute;
         }
-        button:hover {
-            background-color: #2980b9;
+        .paddle {
+            width: 100px;
+            height: 10px;
+            background-color: #333;
+            position: absolute;
+            bottom: 10px;
         }
-        #user-choice, #computer-choice, #result {
-            font-size: 24px;
-            margin: 10px 0;
-        }
-        .win-message, .lose-message, .draw-message {
-            font-size: 28px;
-            font-weight: bold;
-            display: none;
+        .block {
+            width: 50px;
+            height: 20px;
+            background-color: #e74c3c;
+            margin: 5px;
+            display: inline-block;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>じゃんけんゲーム</h1>
-        <div class="icons">
-            <div class="icon" id="rock-icon">✊</div>
-            <div class="icon" id="scissors-icon">✌️</div>
-            <div class="icon" id="paper-icon">✋</div>
-        </div>
-        <button onclick="play('rock')">グー</button>
-        <button onclick="play('scissors')">チョキ</button>
-        <button onclick="play('paper')">パー</button>
-        <p id="user-choice">ユーザーの選択: </p>
-        <p id="computer-choice">コンピュータの選択: </p>
-        <p id="result"></p>
-        <p class="win-message" style="color: green">勝利！</p>
-        <p class="lose-message" style="color: red">敗北...</p>
-        <p class="draw-message" style="color: gray">引き分け</p>
+        <h1>反射ゲーム</h1>
+        <div class="ball" id="ball"></div>
+        <div class="paddle" id="paddle"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
+        <div class="block"></div>
     </div>
 
     <script>
-        function play(userChoice) {
-            const choices = ['rock', 'paper', 'scissors'];
-            const computerChoice = choices[Math.floor(Math.random() * 3)];
+        const ball = document.getElementById('ball');
+        const paddle = document.getElementById('paddle');
 
-            document.getElementById('user-choice').innerText = `ユーザーの選択: ${userChoice}`;
-            document.getElementById('computer-choice').innerText = `コンピュータの選択: ${computerChoice}`;
+        let x = 0;
+        let y = 0;
+        let xSpeed = 2;
+        let ySpeed = 2;
 
-            document.getElementById('rock-icon').style.color = 'black';
-            document.getElementById('scissors-icon').style.color = 'black';
-            document.getElementById('paper-icon').style.color = 'black';
+        function moveBall() {
+            x += xSpeed;
+            y += ySpeed;
 
-            if (userChoice === 'rock') {
-                document.getElementById('rock-icon').style.color = 'red';
-            } else if (userChoice === 'scissors') {
-                document.getElementById('scissors-icon').style.color = 'red';
-            } else {
-                document.getElementById('paper-icon').style.color = 'red';
+            if (x > window.innerWidth - 20 || x < 0) {
+                xSpeed *= -1;
             }
 
-            if (userChoice === computerChoice) {
-                document.getElementById('result').innerText = '引き分け！';
-                document.querySelector('.draw-message').style.display = 'block';
-                document.querySelector('.win-message').style.display = 'none';
-                document.querySelector('.lose-message').style.display = 'none';
-            } else if (
-                (userChoice === 'rock' && computerChoice === 'scissors') ||
-                (userChoice === 'scissors' && computerChoice === 'paper') ||
-                (userChoice === 'paper' && computerChoice === 'rock')
-            ) {
-                document.getElementById('result').innerText = 'ユーザーの勝ち！';
-                document.querySelector('.win-message').style.display = 'block';
-                document.querySelector('.draw-message').style.display = 'none';
-                document.querySelector('.lose-message').style.display = 'none';
-            } else {
-                document.getElementById('result').innerText = 'コンピュータの勝ち！';
-                document.querySelector('.lose-message').style.display = 'block';
-                document.querySelector('.win-message').style.display = 'none';
-                document.querySelector('.draw-message').style.display = 'none';
+            if (y > window.innerHeight - 20) {
+                if (x > paddle.offsetLeft && x < paddle.offsetLeft + 100) {
+                    ySpeed *= -1;
+                }
             }
+
+            if (y < 0) {
+                ySpeed *= -1;
+            }
+
+            ball.style.left = x + 'px';
+            ball.style.top = y + 'px';
+
+            requestAnimationFrame(moveBall);
         }
+
+        moveBall();
+
+        document.addEventListener('mousemove', (event) => {
+            const mouseX = event.clientX;
+            paddle.style.left = mouseX - 50 + 'px';
+        });
     </script>
 </body>
 </html>
